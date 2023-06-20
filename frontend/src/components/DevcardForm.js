@@ -1,6 +1,6 @@
 const { useState } = require("react");
 
-const DevcardForm = ({ getAllDevelopers }) => {
+const DevcardForm = ({ getAllUsers }) => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [handle, setHandle] = useState("");
@@ -18,10 +18,10 @@ const DevcardForm = ({ getAllDevelopers }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const developer = { firstName, lastName, handle, email, title };
-    const response = await fetch("http://localhost:4000/developers", {
+    const user = { firstName, lastName, handle, email, title };
+    const response = await fetch("http://localhost:4000/users", {
       method: "POST",
-      body: JSON.stringify(developer),
+      body: JSON.stringify(user),
       headers: {
         "Content-Type": "application/json",
       },
@@ -32,9 +32,9 @@ const DevcardForm = ({ getAllDevelopers }) => {
     }
     if (response.ok) {
       resetFields();
-      getAllDevelopers();
+      getAllUsers();
       setError(null);
-      console.log("Developer created");
+      console.log("User created");
     }
   };
 
@@ -73,7 +73,7 @@ const DevcardForm = ({ getAllDevelopers }) => {
         value={title}
       />
 
-      <button>Add Developer</button>
+      <button>Add User</button>
       {error && <div className="error">{error}</div>}
     </form>
   );

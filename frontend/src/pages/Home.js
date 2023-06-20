@@ -3,33 +3,33 @@ import DevcardThumbnail from "../components/DevcardThumbnail";
 import DevcardForm from "../components/DevcardForm";
 
 const Home = () => {
-  const [developers, setDevelopers] = useState(null);
+  const [users, setUsers] = useState(null);
 
-  const getAllDevelopers = async () => {
-    const response = await fetch("http://localhost:4000/developers");
+  const getAllUsers = async () => {
+    const response = await fetch("http://localhost:4000/users");
     const json = await response.json();
     if (response.ok) {
-      setDevelopers(json.msg);
+      setUsers(json.msg);
       console.log(json.msg.length);
     }
   };
 
   useEffect(() => {
-    getAllDevelopers();
+    getAllUsers();
   }, []);
 
   return (
     <div className="home">
-      <DevcardForm getAllDevelopers={getAllDevelopers} />
-      {developers &&
-        developers.map((developer, index) => (
+      <DevcardForm getAllUsers={getAllUsers} />
+      {users &&
+        users.map((user, index) => (
           <DevcardThumbnail
             key={index}
-            firstName={developer.firstName}
-            lastName={developer.lastName}
-            title={developer.title}
-            handle={developer.handle}
-            img={developer.img}
+            firstName={user.firstName}
+            lastName={user.lastName}
+            title={user.title}
+            handle={user.handle}
+            img={user.img}
           />
         ))}
     </div>
