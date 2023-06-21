@@ -20,8 +20,11 @@ app.use((req, res, next) => {
 });
 
 // routes
+const authRoutes = require("./routes/auth");
 const usersRoutes = require("./routes/users");
+
 app.use("/users", usersRoutes);
+app.use("/auth", authRoutes);
 
 // connect to database
 mongoose
