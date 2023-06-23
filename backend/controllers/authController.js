@@ -28,7 +28,7 @@ schema
   .symbols(1);
 
 // sign up user
-const signupUser = async (req, res) => {
+const signup = async (req, res) => {
   const { email, password } = req.body;
   if (!email) return res.status(400).json({ error: "Email cannot be blank" });
   if (!password)
@@ -68,7 +68,7 @@ const signupUser = async (req, res) => {
 };
 
 // login user
-const loginUser = async (req, res) => {
+const login = async (req, res) => {
   const { email, password } = req.body;
   if (!email) return res.status(400).json({ error: "Email cannot be blank" });
   if (!password)
@@ -89,6 +89,6 @@ const loginUser = async (req, res) => {
 };
 
 module.exports = {
-  loginUser,
-  signupUser,
+  login,
+  signup,
 };

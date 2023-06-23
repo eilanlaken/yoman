@@ -4,7 +4,7 @@ import { login } from "../redux/auth";
 const { useState } = require("react");
 const { useDispatch } = require("react-redux");
 
-const Login = () => {
+const LoginForm = () => {
   const dispatch = useDispatch();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -39,4 +39,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default LoginForm;

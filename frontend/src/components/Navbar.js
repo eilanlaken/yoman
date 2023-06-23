@@ -12,7 +12,7 @@ const Navbar = () => {
     <header>
       <div className="container">
         <Link to="/">
-          <h3>Devcard</h3>
+          <h2>Devcard</h2>
         </Link>
         {loggedIn ? (
           <div>
