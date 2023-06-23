@@ -1,8 +1,53 @@
 import { Link } from "react-router-dom";
 import { login } from "../redux/auth";
+import styled from "styled-components";
 
 const { useState } = require("react");
 const { useDispatch } = require("react-redux");
+
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 50vh;
+  width: 30vw;
+  background: #f6f6f6;
+  border-radius: 15%;
+`;
+
+const StyledInput = styled.input`
+  margin-bottom: 10px;
+  padding: 10px;
+  width: 200px;
+  border: none;
+  border-radius: 5px;
+`;
+
+const StyledButton = styled.button`
+  margin-top: 10px;
+  padding: 10px;
+  width: 200px;
+  background: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+
+  &:hover {
+    background: #0056b3;
+  }
+`;
+
+const StyledLink = styled(Link)`
+  margin-top: 10px;
+  color: #007bff;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+`;
 
 const LoginForm = () => {
   const dispatch = useDispatch();
@@ -19,23 +64,23 @@ const LoginForm = () => {
   };
 
   return (
-    <div>
+    <Container>
       <h2>Login</h2>
-      <input
+      <StyledInput
         type="text"
         placeholder="username [your email]"
         value={username}
         onChange={(e) => setUsername(e.target.value)}
       />
-      <input
+      <StyledInput
         type="password"
         placeholder="Password"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
       />
-      <button onClick={handleLogin}>Submit</button>
-      <Link to="/forgot-password">Forgot Password?</Link>
-    </div>
+      <StyledButton onClick={handleLogin}>Submit</StyledButton>
+      <StyledLink to="/forgot-password">Forgot Password?</StyledLink>
+    </Container>
   );
 };
 

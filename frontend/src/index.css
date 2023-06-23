@@ -4,7 +4,6 @@
 /* layout */
 :root {
   --primary: #1aac83;
-  --error: #e7195a;
 }
 body {
   background: #f1f1f1;
@@ -54,12 +53,6 @@ header a {
   color: var(--primary);
 }
 
-.devcard-thumbnail p {
-  margin: 0;
-  font-size: 0.9em;
-  color: #555;
-}
-
 .devcard-thumbnail span {
   position: absolute;
   top: 20px;
@@ -91,14 +84,6 @@ form button {
   font-family: "Poppins";
   border-radius: 4px;
   cursor: pointer;
-}
-div.error {
-  padding: 10px;
-  background: #ffefef;
-  border: 1px solid var(--error);
-  color: var(--error);
-  border-radius: 4px;
-  margin: 20px 0;
 }
 
 .devcard-logo {
