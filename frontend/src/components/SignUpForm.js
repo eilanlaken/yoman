@@ -1,10 +1,11 @@
 import styled from "styled-components";
 import validator from "validator";
+import { Link } from "react-router-dom";
 const passwordValidator = require("password-validator");
 const { useState } = require("react");
 const { useDispatch } = require("react-redux");
 
-const errorColor = "#ee195a";
+const primaryColor = "#1aac83";
 
 const SignUpFormContainer = styled.div`
   display: flex;
@@ -28,6 +29,25 @@ const StyledInput = styled.input`
 const ErrorMessage = styled.p`
   color: red;
   width: 250px;
+  font-size: 12px;
+`;
+
+const TermsAndConditionsClause = styled.div`
+  display: flex;
+  align-items: left;
+  width: 250px;
+  margin-bottom: 10px;
+`;
+
+const TermsText = styled.p`
+  color: #777;
+  font-size: 12px;
+  margin-top: 5;
+  margin-bottom: 0;
+`;
+
+const TermsLink = styled(Link)`
+  color: ${primaryColor};
   font-size: 12px;
 `;
 
@@ -206,6 +226,12 @@ const SignUpForm = () => {
       {passwordRepeatError && (
         <ErrorMessage>*{passwordRepeatError}</ErrorMessage>
       )}
+      <TermsAndConditionsClause>
+        <TermsText>
+          By clicking Submit, you agree to our{" "}
+          <TermsLink to="/legal">terms and conditions</TermsLink>
+        </TermsText>
+      </TermsAndConditionsClause>
       <StyledButton onClick={submit}>Submit</StyledButton>
     </SignUpFormContainer>
   );

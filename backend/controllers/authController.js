@@ -51,7 +51,7 @@ const signup = async (req, res) => {
   if (!schema.validate(password)) {
     return res.status(400).json({
       error:
-        "Password must contain: at least 1 uppercase, at least 1 lowercase, at least 1 symbol, at least 1 digit and be between 8 and 26 characters long. ",
+        "Password must contain: at least 1 uppercase, at least 1 lowercase, at least 1 symbol, at least 1 digit and be between 8 and 26 characters long.",
     });
   }
   // hash the password

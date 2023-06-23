@@ -20,7 +20,14 @@ const Navbar = () => {
             <button onClick={() => dispatch(logout())}>Logout</button>
           </div>
         ) : (
-          <div>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "space-between",
+              width: "130px",
+            }}
+          >
             <Link to="/login">Login</Link>
             <Link to="/signup">Sign Up</Link>
           </div>
