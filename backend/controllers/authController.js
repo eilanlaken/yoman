@@ -6,9 +6,6 @@ const passwordValidator = require("password-validator");
 const bcrypt = require("bcrypt");
 const crypto = require("crypto");
 const jwt = require("jsonwebtoken");
-const sendgrid = require("@sendgrid/mail");
-
-sendgrid.setApiKey(process.env.SENDGRID_API_KEY);
 
 const createToken = (email) => {
   return jwt.sign({ email }, process.env.SECRET);
@@ -32,7 +29,7 @@ schema
   .has()
   .symbols(1);
 
-const attemptSignUp = async (req, res) => {
+const signup = async (req, res) => {
   const { email, password, firstName, lastName } = req.body;
 
   const error = await validateSignUpFields({
@@ -63,22 +60,9 @@ const attemptSignUp = async (req, res) => {
     expires,
   });
 
-  console.log(email);
-
-  const message = {
-    to: email,
-    from: "devcard.donotreply@gmail.com",
-    subject: "Devcard Account Email Verification",
-    text: "hello",
-    html: `<h1>${token}</h1>`,
-  };
-
-  sendgrid
-    .send(message)
-    .then((res) => console.log("sent"))
-    .catch((err) => console.log(err));
-
-  res.status(200).json({ msg: `User registered` });
+  res.status(200).json({
+    msg: `Sign up successfull, please verify you email by clicking on the link we sent.`,
+  });
 };
 
 const validateSignUpFields = async ({
@@ -116,44 +100,26 @@ const validateSignUpFields = async ({
   if (alreadyRegistered) return { code: 409, msg: "Email already registered" };
 };
 
-// sign up user
-const signup = async (req, res) => {
-  const { email, password } = req.body;
-  if (!email) return res.status(400).json({ error: "Email cannot be blank" });
-  if (!password)
-    return res.status(400).json({ error: "Password cannot be blank" });
-  // validate legal email expression
-  const isValidEmail = validator.isEmail(email);
-  if (!isValidEmail) {
-    return res.status(400).json({ error: "Must use a valid email address" });
-  }
+const verify = async (req, res) => {
+  const { token } = req.query;
+  const signUpAttempt = await SignUpAttempt.findOne({ token });
+  if (!signUpAttempt) return { code: 404, msg: "Not found" };
+  const { firstName, lastName, email, password } = signUpAttempt;
+  const alreadyRegistered = await User.findOne({ email });
+  if (alreadyRegistered) return { code: 409, msg: "Email already registered" };
 
-  // verify email doesn't already exist in the db
-  const exists = await User.findOne({ email });
-  if (exists) {
-    return res
-      .status(409)
-      .json({ error: "Email already registered. Forgot password?" });
-  }
-
-  // validate strong password
-  if (!schema.validate(password)) {
-    return res.status(400).json({
-      error:
-        "Password must contain: at least 1 uppercase, at least 1 lowercase, at least 1 symbol, at least 1 digit and be between 8 and 26 characters long.",
-    });
-  }
-  // hash the password
-  const salt = await bcrypt.genSalt(10);
-  const hash = await bcrypt.hash(password, salt);
-
-  const user = await User.create({
+  await User.create({
     email,
-    password: hash,
-    handle: email, // temporary handle
+    password,
+    firstName,
+    lastName,
   });
 
-  res.status(200).json({ msg: `User registered` });
+  await SignUpAttempt.findOneAndDelete({ token });
+
+  res.status(200).json({
+    msg: `Your email address has been verified. You may now login.`,
+  });
 };
 
 // login user
@@ -179,6 +145,6 @@ const login = async (req, res) => {
 
 module.exports = {
   login,
-  signup, // depracated
-  attemptSignUp,
+  signup,
+  verify,
 };

@@ -4,12 +4,30 @@ const Schema = mongoose.Schema;
 
 const userSchema = new Schema(
   {
-    firstName: { type: String },
-    lastName: { type: String },
-    email: { type: String, required: true, unique: true },
-    password: { type: String, required: true },
-    handle: { type: String, unique: true },
-    title: { type: String },
+    firstName: {
+      type: String,
+      required: true,
+      trim: true,
+      maxlength: 50,
+    },
+    lastName: {
+      type: String,
+      required: true,
+      trim: true,
+      maxlength: 50,
+    },
+    email: {
+      type: String,
+      required: true,
+      trim: true,
+      lowercase: true,
+      unique: true,
+    },
+    password: {
+      type: String,
+      required: true,
+      minlength: 8,
+    },
   },
   { timestamps: true }
 );
