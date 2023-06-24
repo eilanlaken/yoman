@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import LoginForm from "../components/LoginForm";
-import LoginSplash from "../components/LoginSplash";
+import Splash from "../components/Splash";
 
 const LoginPageContainer = styled.div`
   display: flex;
@@ -12,7 +12,7 @@ const LoginPageContainer = styled.div`
 const Login = () => {
   return (
     <LoginPageContainer>
-      <LoginSplash />
+      <Splash page="login" />
       <LoginForm />
     </LoginPageContainer>
   );

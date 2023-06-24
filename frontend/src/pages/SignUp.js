@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import SignUpForm from "../components/SignUpForm";
-import SignUpSplash from "../components/SignUpSplash";
+import Splash from "../components/Splash";
 
 const SignUpPageContainer = styled.div`
   display: flex;
@@ -12,7 +12,7 @@ const SignUpPageContainer = styled.div`
 const SignUp = () => {
   return (
     <SignUpPageContainer>
-      <SignUpSplash />
+      <Splash page="signup" />
       <SignUpForm />
     </SignUpPageContainer>
   );
