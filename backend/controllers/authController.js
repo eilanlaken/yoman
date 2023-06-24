@@ -6,23 +6,9 @@ const passwordValidator = require("password-validator");
 const bcrypt = require("bcrypt");
 const crypto = require("crypto");
 const jwt = require("jsonwebtoken");
-const nodemailer = require("nodemailer");
-const handlebars = require("handlebars");
-const fs = require("fs");
-const path = require("path");
+const sendgrid = require("@sendgrid/mail");
 
-const source = fs.readFileSync(
-  path.join(__dirname, "../templates/verifyEmail.html"),
-  "utf8"
-);
-const verifyEmailAddressEmailTemplate = handlebars.compile(source);
-const transporter = nodemailer.createTransport({
-  service: "gmail",
-  auth: {
-    user: process.env.MAILER_EMAIL,
-    pass: process.env.MAILER_PASSWORD,
-  },
-});
+sendgrid.setApiKey(process.env.SENDGRID_API_KEY);
 
 const createToken = (email) => {
   return jwt.sign({ email }, process.env.SECRET);
@@ -77,31 +63,20 @@ const attemptSignUp = async (req, res) => {
     expires,
   });
 
-  // send email
-  // const mail = {
-  //   from: process.env.MAILER_EMAIL,
-  //   to: email,
-  //   subject: "Devcard Email Verification",
-  //   html: verifyEmailAddressEmailTemplate({
-  //     firstName,
-  //     lastName,
-  //     link: token,
-  //   }),
-  // };
+  console.log(email);
 
-  const mail = {
+  const message = {
+    to: email,
     from: "devcard.donotreply@gmail.com",
-    to: "eilanlaken@gmail.com",
-    subject: "king gigacel",
-    text: "hi",
+    subject: "Devcard Account Email Verification",
+    text: "hello",
+    html: `<h1>${token}</h1>`,
   };
 
-  let mailError = undefined;
-  transporter.sendMail(mail, (err, info) => {
-    if (err) mailError = err;
-  });
-  if (mailError)
-    return res.status(500).json({ msg: `Internal server error: ${mailError}` });
+  sendgrid
+    .send(message)
+    .then((res) => console.log("sent"))
+    .catch((err) => console.log(err));
 
   res.status(200).json({ msg: `User registered` });
 };
