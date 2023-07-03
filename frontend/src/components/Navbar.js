@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { logout } from "../redux/auth";
+import { logout } from "../redux/authSlice_old";
 
 const Navbar = () => {
   const { loggedIn } = useSelector((state) => state.auth);

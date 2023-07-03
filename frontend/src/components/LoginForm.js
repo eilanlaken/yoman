@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { login } from "../redux/auth";
+import { login } from "../redux/authSlice_old";
 import styled from "styled-components";
 
 const { useState } = require("react");

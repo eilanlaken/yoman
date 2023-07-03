@@ -7,6 +7,8 @@ import SignUp from "./pages/SignUp";
 import Legal from "./pages/Legal";
 
 function App() {
+  console.log("hi", process.env.REACT_APP_BASE_URL);
+
   return (
     <div className="App">
       <Router>
