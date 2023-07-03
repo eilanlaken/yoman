@@ -4,7 +4,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 
 // create app
-dotenv.config();
+dotenv.config({ path: `.env.${process.env.NODE_ENV}` });
 const app = express();
 
 // middleware setup

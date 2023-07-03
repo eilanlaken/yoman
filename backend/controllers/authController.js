@@ -51,7 +51,7 @@ const signup = async (req, res) => {
       Number(process.env.REGISTRATION_TOKEN_EXPIRATION_TIME_HOURS)
   );
 
-  const signUpAttempt = await SignUpAttempt.create({
+  await SignUpAttempt.create({
     email,
     password: hash,
     firstName,
@@ -103,16 +103,26 @@ const validateSignUpFields = async ({
 const verify = async (req, res) => {
   const { token } = req.query;
   const signUpAttempt = await SignUpAttempt.findOne({ token });
-  if (!signUpAttempt) return { code: 404, msg: "Not found" };
+  if (!signUpAttempt) {
+    return res.status(404).json({
+      error: `Not found.`,
+    });
+  }
   const { firstName, lastName, email, password } = signUpAttempt;
   const alreadyRegistered = await User.findOne({ email });
-  if (alreadyRegistered) return { code: 409, msg: "Email already registered" };
+  if (alreadyRegistered) {
+    await SignUpAttempt.findOneAndDelete({ token });
+    return res.status(409).json({
+      error: `Email already registered.`,
+    });
+  }
 
   await User.create({
     email,
     password,
     firstName,
     lastName,
+    role: "CUSTOMER",
   });
 
   await SignUpAttempt.findOneAndDelete({ token });
@@ -130,17 +140,33 @@ const login = async (req, res) => {
     return res.status(400).json({ error: "Password cannot be blank" });
   const user = await User.findOne({ email });
   if (!user) {
-    return res.status(401).json({ error: "Incorrect email or password" });
+    const signUpAttempt = await SignUpAttempt.findOne({ email });
+    if (signUpAttempt) {
+      return res.status(401).json({
+        error:
+          "Unauthorized: please verify your email by clicking on the link we sent before logging in.",
+      });
+    } else {
+      return res
+        .status(404)
+        .json({ error: `User with email ${email} not found.` });
+    }
   }
 
   const match = await bcrypt.compare(password, user.password);
   if (!match) {
-    return res.status(401).json({ error: "Incorrect email or password" });
+    return res.status(401).json({ error: "Incorrect password." });
   }
 
   // generate JWT and send success response:
   const jwt = createToken(user.email);
-  res.status(200).json({ msg: "login successful", jwt, email });
+  res.status(200).json({
+    msg: "login successful",
+    jwt,
+    email: user.email,
+    firstName: user.firstName,
+    lastName: user.lastName,
+  });
 };
 
 module.exports = {
