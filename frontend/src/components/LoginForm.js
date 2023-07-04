@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
-import { login } from "../redux/authSlice_old";
 import styled from "styled-components";
+import useLogin from "../hooks/useLogin";
+import ClipLoader from "react-spinners/ClipLoader";
 
 const { useState } = require("react");
 const { useDispatch } = require("react-redux");
@@ -23,6 +24,12 @@ const StyledInput = styled.input`
   width: 200px;
   border: none;
   border-radius: 5px;
+`;
+
+const ErrorMessage = styled.p`
+  color: red;
+  width: 250px;
+  font-size: 12px;
 `;
 
 const StyledButton = styled.button`
@@ -51,17 +58,13 @@ const StyledLink = styled(Link)`
 `;
 
 const LoginForm = ({ withUsername, withPassword, withMessage }) => {
-  const dispatch = useDispatch();
   const [username, setUsername] = useState(withUsername);
   const [password, setPassword] = useState(withPassword);
+  const { loginUser, isLoading, serverError } = useLogin();
 
-  const handleLogin = (e) => {
-    // submit a login request to the server
-
-    // dummy code
+  const handleLogin = async (e) => {
     e.preventDefault();
-    const credentials = { email: username, password };
-    dispatch(login(credentials));
+    await loginUser(username, password);
   };
 
   return (
@@ -80,7 +83,14 @@ const LoginForm = ({ withUsername, withPassword, withMessage }) => {
         value={password}
         onChange={(e) => setPassword(e.target.value)}
       />
-      <StyledButton onClick={handleLogin}>Submit</StyledButton>
+      {serverError && <ErrorMessage>{serverError}</ErrorMessage>}
+      <StyledButton onClick={handleLogin} disabled={isLoading}>
+        {isLoading ? (
+          <ClipLoader color="white" loading={true} size={15} />
+        ) : (
+          "Submit"
+        )}
+      </StyledButton>
       <StyledLink to="/forgot-password">Forgot Password?</StyledLink>
     </Container>
   );

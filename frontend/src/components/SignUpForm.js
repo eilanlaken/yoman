@@ -102,7 +102,7 @@ const SignUpForm = () => {
   const [passwordRepeatError, setPasswordRepeatError] = useState("");
   const { signup, isLoading, serverError, success } = useSignup();
 
-  const submit = async (e) => {
+  const handleSignup = async (e) => {
     e.preventDefault();
     resetErrors();
     if (!validate()) {
@@ -236,7 +236,7 @@ const SignUpForm = () => {
         </TermsText>
       </TermsAndConditionsClause>
       {serverError && <ErrorMessage>{serverError}</ErrorMessage>}
-      <StyledButton onClick={submit} disabled={isLoading}>
+      <StyledButton onClick={handleSignup} disabled={isLoading}>
         {isLoading ? (
           <ClipLoader color="white" loading={true} size={15} />
         ) : (

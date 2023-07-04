@@ -39,31 +39,6 @@ const useSignup = () => {
           setServerError("Error sending the request.");
         }
       });
-
-    // const response = await fetch(
-    //   `${process.env.REACT_APP_BASE_URL}/auth/signup`,
-    //   {
-    //     method: "POST",
-    //     headers: { "Content-Type": "application/json" },
-    //     body: JSON.stringify({ email, password, firstName, lastName }),
-    //   }
-    // );
-
-    // const json = await response.json();
-
-    // if (!response.ok) {
-    //   setIsLoading(false);
-    //   setServerError(json.error);
-    // } else {
-    //   setIsLoading(false);
-    //   setSuccess(true);
-    // }
-
-    // setTimeout(() => {
-    //   setIsLoading(false);
-    //   setSuccess(true);
-    //   setServerError(null);
-    // }, 200);
   };
 
   return { signup, isLoading, serverError, success };

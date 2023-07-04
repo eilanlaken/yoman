@@ -1,12 +1,16 @@
 import { Link } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
-import { logout } from "../redux/authSlice_old";
+import { useSelector } from "react-redux";
+import useLogout from "../hooks/useLogout";
 
 const Navbar = () => {
-  const { loggedIn } = useSelector((state) => state.auth);
-  const dispatch = useDispatch();
+  const logout = useLogout();
+  const { loggedIn, firstName, lastName, email } = useSelector(
+    (state) => state.auth
+  );
 
-  console.log("isloggedin", loggedIn);
+  const handleLogout = async () => {
+    logout();
+  };
 
   return (
     <header>
@@ -16,8 +20,10 @@ const Navbar = () => {
         </Link>
         {loggedIn ? (
           <div>
-            <span>Hello, name</span>
-            <button onClick={() => dispatch(logout())}>Logout</button>
+            <span>
+              Hello, {firstName} {lastName}
+            </span>
+            <button onClick={handleLogout}>Logout</button>
           </div>
         ) : (
           <div
