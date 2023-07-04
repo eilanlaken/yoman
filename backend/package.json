@@ -6,8 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "local": "SET \"NODE_ENV=local\" && nodemon server.js",
-    "development": "SET \"NODE_ENV=development\" && node server.js",
-    "production": "SET \"NODE_ENV=production\" && node server.js"
+    "dev": "SET \"NODE_ENV=dev\" && node server.js",
+    "prod": "SET \"NODE_ENV=prod\" && node server.js"
   },
   "keywords": [],
   "author": "",
