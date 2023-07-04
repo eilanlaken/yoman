@@ -14,6 +14,7 @@ const Container = styled.div`
   width: 30vw;
   background: #f6f6f6;
   border-radius: 15%;
+  padding: 20px;
 `;
 
 const StyledInput = styled.input`
@@ -49,10 +50,10 @@ const StyledLink = styled(Link)`
   }
 `;
 
-const LoginForm = () => {
+const LoginForm = ({ withUsername, withPassword, withMessage }) => {
   const dispatch = useDispatch();
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [username, setUsername] = useState(withUsername);
+  const [password, setPassword] = useState(withPassword);
 
   const handleLogin = (e) => {
     // submit a login request to the server
@@ -65,6 +66,7 @@ const LoginForm = () => {
 
   return (
     <Container>
+      {withMessage && <p>{withMessage}</p>}
       <h2>Login</h2>
       <StyledInput
         type="text"

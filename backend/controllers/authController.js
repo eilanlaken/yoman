@@ -61,7 +61,7 @@ const signup = async (req, res) => {
   });
 
   res.status(200).json({
-    msg: `Sign up successfull, please verify you email by clicking on the link we sent.`,
+    msg: `Successful signup`,
   });
 };
 

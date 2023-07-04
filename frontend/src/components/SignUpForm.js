@@ -1,6 +1,9 @@
 import styled from "styled-components";
 import validator from "validator";
 import { Link } from "react-router-dom";
+import { useSignup } from "../hooks/useSignup";
+import ClipLoader from "react-spinners/ClipLoader";
+import LoginForm from "./LoginForm";
 const passwordValidator = require("password-validator");
 const { useState } = require("react");
 const { useDispatch } = require("react-redux");
@@ -16,6 +19,7 @@ const SignUpFormContainer = styled.div`
   width: 30vw;
   background: #f6f6f6;
   border-radius: 15%;
+  padding: 20px;
 `;
 
 const StyledInput = styled.input`
@@ -96,16 +100,16 @@ const SignUpForm = () => {
   const [passwordError, setPasswordError] = useState("");
   const [passwordRepeat, setPasswordRepeat] = useState("");
   const [passwordRepeatError, setPasswordRepeatError] = useState("");
-  const [hasErrors, setHasErrors] = useState(false);
+  const { signup, isLoading, serverError, success } = useSignup();
 
-  const submit = (e) => {
+  const submit = async (e) => {
     e.preventDefault();
     resetErrors();
     if (!validate()) {
       return;
     }
 
-    console.log("validated");
+    await signup(email, password, firstName, lastName);
   };
 
   const resetErrors = () => {
@@ -114,7 +118,6 @@ const SignUpForm = () => {
     setEmailError("");
     setPasswordError("");
     setPasswordRepeatError("");
-    setHasErrors(false);
   };
 
   const validate = () => {
@@ -186,7 +189,7 @@ const SignUpForm = () => {
     return true;
   };
 
-  return (
+  return !success ? (
     <SignUpFormContainer>
       <h2>Sign Up</h2>
       <StyledInput
@@ -232,8 +235,26 @@ const SignUpForm = () => {
           <TermsLink to="/legal">terms and conditions</TermsLink>
         </TermsText>
       </TermsAndConditionsClause>
-      <StyledButton onClick={submit}>Submit</StyledButton>
+      {serverError && <ErrorMessage>{serverError}</ErrorMessage>}
+      <StyledButton onClick={submit} disabled={isLoading}>
+        {isLoading ? (
+          <ClipLoader color="white" loading={true} size={15} />
+        ) : (
+          "Submit"
+        )}
+      </StyledButton>
     </SignUpFormContainer>
+  ) : (
+    <div>
+      <p></p>
+      <LoginForm
+        withUsername={email}
+        withPassword={password}
+        withMessage={
+          "Success! Please veify your email by clicking on the link we just sent before logging in."
+        }
+      />
+    </div>
   );
 };
 
