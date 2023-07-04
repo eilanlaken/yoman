@@ -24,7 +24,6 @@ const useLogin = () => {
       .then((response) => {
         console.log(response.data);
         setIsLoading(false);
-        console.log("before d");
         dispatch(
           login({
             firstName: response.data.firstName,
@@ -33,7 +32,6 @@ const useLogin = () => {
             jwt: response.data.jwt,
           })
         );
-        console.log("after d");
       })
       .catch((error) => {
         setIsLoading(false);
