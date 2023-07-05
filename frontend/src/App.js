@@ -14,6 +14,7 @@ import Legal from "./pages/Legal";
 import GiveFeedback from "./pages/GiveFeedback";
 import Account from "./pages/Account";
 import UpgradeToGold from "./pages/UpgradeToGold";
+import ForgotPassword from "./pages/ForgotPassword";
 
 function App() {
   const { loggedIn } = useSelector((state) => state.auth);
@@ -48,6 +49,10 @@ function App() {
             <Route
               path="/upgrade-to-gold"
               element={loggedIn ? <UpgradeToGold /> : <Navigate to="/login" />}
+            />
+            <Route
+              path="/forgot-password"
+              element={loggedIn ? <Navigate to="/" /> : <ForgotPassword />}
             />
           </Routes>
         </div>
