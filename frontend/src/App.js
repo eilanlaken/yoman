@@ -11,6 +11,9 @@ import Login from "./pages/Login";
 import Footer from "./components/Footer";
 import SignUp from "./pages/SignUp";
 import Legal from "./pages/Legal";
+import GiveFeedback from "./pages/GiveFeedback";
+import Account from "./pages/Account";
+import UpgradeToGold from "./pages/UpgradeToGold";
 
 function App() {
   const { loggedIn } = useSelector((state) => state.auth);
@@ -34,6 +37,18 @@ function App() {
               element={loggedIn ? <Navigate to="/" /> : <SignUp />}
             />
             <Route path="/legal" element={<Legal />} />
+            <Route
+              path="/give-feedback"
+              element={loggedIn ? <GiveFeedback /> : <Navigate to="/login" />}
+            />
+            <Route
+              path="/account"
+              element={loggedIn ? <Account /> : <Navigate to="/login" />}
+            />
+            <Route
+              path="/upgrade-to-gold"
+              element={loggedIn ? <UpgradeToGold /> : <Navigate to="/login" />}
+            />
           </Routes>
         </div>
         <Footer />

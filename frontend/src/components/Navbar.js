@@ -1,4 +1,4 @@
-import { Link, Navigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import useLogout from "../hooks/useLogout";
 import styled from "styled-components";
@@ -63,6 +63,7 @@ const HamburgerMenu = ({ handleLogout }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [premiumUser, setPremuimUser] = useState(false);
   const node = useRef();
+  const navigate = useNavigate();
 
   const toggleMenu = () => setIsOpen(!isOpen);
   const closeMenu = () => setIsOpen(false);
@@ -85,39 +86,53 @@ const HamburgerMenu = ({ handleLogout }) => {
       <HamburgerIcon onClick={toggleMenu} />
       {isOpen && (
         <Menu>
-          <MenuItemContainer onClick={() => console.log("hi")}>
+          <MenuItemContainer
+            onClick={() => {
+              navigate("/account");
+              closeMenu();
+            }}
+          >
             <MdOutlineAccountCircle style={{ marginRight: "20px" }} />
             Account
           </MenuItemContainer>
-          <MenuItemContainer onClick={() => console.log("hi")}>
+          <MenuItemContainer
+            onClick={() => {
+              navigate("/give-feedback");
+              closeMenu();
+            }}
+          >
             <MdOutlineFeedback style={{ marginRight: "20px" }} />
             Give Feedback
           </MenuItemContainer>
-          <MenuItemContainer>
+          <MenuItemContainer
+            onClick={() => {
+              navigate("/legal");
+              closeMenu();
+            }}
+          >
             <MdOutlinePolicy style={{ marginRight: "20px" }} />
-            <Link to="/legal" onClick={closeMenu}>
-              Privacy Policy
-            </Link>
+            Privacy Policy
           </MenuItemContainer>
           {!premiumUser && (
             <MenuItemContainer
               backgroundColor="gold"
-              onClick={() => console.log("hi")}
+              onClick={() => {
+                navigate("/upgrade-to-gold");
+                closeMenu();
+              }}
             >
               <BsEmojiSmile style={{ marginRight: "20px" }} />
               Upgrade to Gold
             </MenuItemContainer>
           )}
-          <MenuItemContainer onClick={() => console.log("hi")}>
+          <MenuItemContainer
+            onClick={() => {
+              closeMenu();
+              handleLogout();
+            }}
+          >
             <RiLogoutBoxLine style={{ marginRight: "20px" }} />
-            <div
-              onClick={() => {
-                closeMenu();
-                handleLogout();
-              }}
-            >
-              Logout
-            </div>
+            Logout
           </MenuItemContainer>
         </Menu>
       )}
