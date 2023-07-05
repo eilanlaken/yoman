@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import useLogout from "../hooks/useLogout";
 import styled from "styled-components";
@@ -53,6 +53,12 @@ const MenuItemContainer = styled.div`
   }
 `;
 
+const StyledLink = styled(Link)`
+  &:hover {
+    color: #1aac83;
+  }
+`;
+
 const HamburgerMenu = ({ handleLogout }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [premiumUser, setPremuimUser] = useState(false);
@@ -104,15 +110,14 @@ const HamburgerMenu = ({ handleLogout }) => {
           )}
           <MenuItemContainer onClick={() => console.log("hi")}>
             <RiLogoutBoxLine style={{ marginRight: "20px" }} />
-            <Link
-              to="/login"
+            <div
               onClick={() => {
                 closeMenu();
                 handleLogout();
               }}
             >
               Logout
-            </Link>
+            </div>
           </MenuItemContainer>
         </Menu>
       )}
@@ -131,9 +136,9 @@ const Navbar = () => {
   return (
     <header>
       <div className="container">
-        <Link to="/">
+        <StyledLink to="/">
           <h2>Devcard</h2>
-        </Link>
+        </StyledLink>
         {loggedIn ? (
           <Container>
             <span>Hello {firstName}!</span>
@@ -142,8 +147,8 @@ const Navbar = () => {
           </Container>
         ) : (
           <Container>
-            <Link to="/login">Login</Link>
-            <Link to="/signup">Sign Up</Link>
+            <StyledLink to="/login">Login</StyledLink>
+            <StyledLink to="/signup">Sign Up</StyledLink>
           </Container>
         )}
       </div>
