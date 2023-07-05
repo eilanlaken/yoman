@@ -57,13 +57,7 @@ const Splash = ({ page }) => {
     <SplashContainer>
       <Logo>Devcard</Logo>
       <Tagline color="#333" fontSize="1.1em">
-        Create a software developer portfolio
-      </Tagline>
-      <Tagline color="#333" fontSize="1.1em">
-        Connect and collaborate with others
-      </Tagline>
-      <Tagline color="#333" fontSize="1.1em">
-        Get discovered by employers
+        Replace Your Resume Files With A Link.
       </Tagline>
       {(page === "login" || page === "forgot-password") && (
         <SignUpPromptContainer>
