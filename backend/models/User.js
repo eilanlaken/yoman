@@ -33,6 +33,11 @@ const userSchema = new Schema(
       enum: ["ADMIN", "CUSTOMER"],
       required: true,
     },
+    gold: {
+      type: Boolean,
+      required: true,
+      default: false,
+    },
   },
   { timestamps: true }
 );

@@ -1,4 +1,4 @@
-import { logout } from "../redux/authSlice";
+import { logout } from "../redux/accountSlice";
 import { useDispatch } from "react-redux";
 
 const useLogout = () => {

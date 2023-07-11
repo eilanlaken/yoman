@@ -1,4 +1,4 @@
-import { login } from "../redux/authSlice";
+import { login } from "../redux/accountSlice";
 import { useDispatch } from "react-redux";
 import { useState } from "react";
 import axios from "axios";
@@ -30,6 +30,8 @@ const useLogin = () => {
             lastName: response.data.lastName,
             email: response.data.email,
             jwt: response.data.jwt,
+            role: response.data.role,
+            gold: response.data.gold,
           })
         );
       })

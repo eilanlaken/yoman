@@ -10,12 +10,14 @@ const initialState = loadUser() || {
   firstName: "",
   lastName: "",
   email: "",
+  gold: false,
+  role: "",
   jwt: "",
   loggedIn: false,
 };
 
-const authSlice = createSlice({
-  name: "auth",
+const accountSlice = createSlice({
+  name: "account",
   initialState,
   reducers: {
     login: (state, action) => {
@@ -23,6 +25,8 @@ const authSlice = createSlice({
       state.lastName = action.payload.lastName;
       state.email = action.payload.email;
       state.jwt = action.payload.jwt;
+      state.gold = action.payload.gold;
+      state.role = action.payload.role;
       state.loggedIn = true;
       localStorage.setItem("user", JSON.stringify(state));
     },
@@ -31,11 +35,13 @@ const authSlice = createSlice({
       state.lastName = "";
       state.email = "";
       state.jwt = "";
+      state.gold = false;
+      state.role = "";
       state.loggedIn = false;
       localStorage.removeItem("user");
     },
   },
 });
 
-export const { login, logout } = authSlice.actions;
-export default authSlice.reducer;
+export const { login, logout } = accountSlice.actions;
+export default accountSlice.reducer;

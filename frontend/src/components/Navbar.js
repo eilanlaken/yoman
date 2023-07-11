@@ -8,6 +8,7 @@ import { MdOutlineAccountCircle } from "react-icons/md";
 import { BsEmojiSmile } from "react-icons/bs";
 import { MdOutlineFeedback } from "react-icons/md";
 import { MdOutlinePolicy } from "react-icons/md";
+import { AiOutlineHome } from "react-icons/ai";
 import { useEffect, useRef, useState } from "react";
 
 const Container = styled.div`
@@ -54,14 +55,18 @@ const MenuItemContainer = styled.div`
 `;
 
 const StyledLink = styled(Link)`
+  text-decoration: none;
+  color: #1aac83;
   &:hover {
-    color: #1aac83;
+    color: #000;
+  }
+  &:visited {
   }
 `;
 
 const HamburgerMenu = ({ handleLogout }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [premiumUser, setPremuimUser] = useState(false);
+  const { gold } = useSelector((state) => state.account);
   const node = useRef();
   const navigate = useNavigate();
 
@@ -86,6 +91,15 @@ const HamburgerMenu = ({ handleLogout }) => {
       <HamburgerIcon onClick={toggleMenu} />
       {isOpen && (
         <Menu>
+          <MenuItemContainer
+            onClick={() => {
+              navigate("/");
+              closeMenu();
+            }}
+          >
+            <AiOutlineHome style={{ marginRight: "20px" }} />
+            Home
+          </MenuItemContainer>
           <MenuItemContainer
             onClick={() => {
               navigate("/account");
@@ -113,7 +127,7 @@ const HamburgerMenu = ({ handleLogout }) => {
             <MdOutlinePolicy style={{ marginRight: "20px" }} />
             Privacy Policy
           </MenuItemContainer>
-          {!premiumUser && (
+          {!gold && (
             <MenuItemContainer
               backgroundColor="gold"
               onClick={() => {
@@ -142,7 +156,7 @@ const HamburgerMenu = ({ handleLogout }) => {
 
 const Navbar = () => {
   const logout = useLogout();
-  const { loggedIn, firstName } = useSelector((state) => state.auth);
+  const { loggedIn, firstName } = useSelector((state) => state.account);
 
   const handleLogout = async () => {
     logout();

@@ -123,6 +123,7 @@ const verify = async (req, res) => {
     firstName,
     lastName,
     role: "CUSTOMER",
+    gold: false,
   });
 
   await SignUpAttempt.findOneAndDelete({ token });
@@ -162,10 +163,12 @@ const login = async (req, res) => {
   const jwt = createToken(user.email);
   res.status(200).json({
     msg: "login successful",
-    jwt,
-    email: user.email,
     firstName: user.firstName,
     lastName: user.lastName,
+    email: user.email,
+    jwt,
+    role: user.role,
+    gold: user.gold,
   });
 };
 

@@ -17,7 +17,7 @@ import UpgradeToGold from "./pages/UpgradeToGold";
 import ForgotPassword from "./pages/ForgotPassword";
 
 function App() {
-  const { loggedIn } = useSelector((state) => state.auth);
+  const { loggedIn } = useSelector((state) => state.account);
 
   return (
     <div className="App">
